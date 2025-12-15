@@ -69,11 +69,12 @@ body {
 
 .card h2 {
   margin-top: 0;
+  font-size: 1.4rem;
 }
 
 .muted {
   color: rgba(60, 70, 90, 0.8);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .form-grid {
@@ -86,7 +87,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .form-field span {
@@ -192,7 +193,7 @@ input[type="file"]::file-selector-button {
 }
 
 .question-text {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   margin-bottom: 1rem;
 }
 
@@ -229,11 +230,11 @@ input[type="file"]::file-selector-button {
 
 .option-label {
   font-weight: 600;
-  font-size: 0.98rem;
+  font-size: 1.05rem;
 }
 
 .option span:last-child {
-  font-size: 0.98rem;
+  font-size: 1.05rem;
 }
 
 .test-footer {
@@ -294,7 +295,7 @@ input[type="file"]::file-selector-button {
 }
 
 .review-answer {
-  font-size: 0.98rem;
+  font-size: 1.05rem;
 }
 
 .review-answer-label {
@@ -318,11 +319,178 @@ input[type="file"]::file-selector-button {
   border-radius: 999px;
   background: #eef3ff;
   border: 1px solid rgba(55, 114, 255, 0.6);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: #111111;
   margin-bottom: 0.6rem;
+}
+
+.test-layout {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.question-palette {
+  width: 220px;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  padding-right: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.question-palette.collapsed {
+  width: 70px;
+}
+
+.palette-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.palette-toggle {
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+}
+
+.palette-item {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #f1f2f6;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.palette-item.palette-unanswered {
+  background: #f1f2f6;
+  color: #555;
+}
+
+.palette-item.palette-answered {
+  background: #e3f7e7;
+  border-color: #2e7d32;
+  color: #134a19;
+}
+
+.palette-item.palette-marked {
+  background: #f0e4ff;
+  border-color: #7b1fa2;
+  color: #4a148c;
+}
+
+.palette-item.palette-current {
+  box-shadow: 0 0 0 2px rgba(55, 114, 255, 0.7);
+}
+
+.palette-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-top: 0.4rem;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+.legend-dot.answered {
+  background: #2e7d32;
+}
+
+.legend-dot.marked {
+  background: #7b1fa2;
+}
+
+.legend-dot.unanswered {
+  background: #9ea3b0;
+}
+
+.test-main {
+  flex: 1;
+}
+
+.secondary-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  background: #ffffff;
+  color: #111111;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.secondary-btn.active {
+  border-color: #7b1fa2;
+  background: #f0e4ff;
+  color: #4a148c;
+}
+
+.test-actions {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+.modal-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.4rem 1.6rem 1.3rem;
+  max-width: 420px;
+  width: 90%;
+  color: #111111;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.modal-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  margin-top: 1rem;
 }
 
 @media (max-width: 700px) {
@@ -336,6 +504,22 @@ input[type="file"]::file-selector-button {
 
   .app-subtitle {
     font-size: 1.05rem;
+  }
+
+  .test-layout {
+    flex-direction: column;
+  }
+
+  .question-palette {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding-right: 0;
+    padding-bottom: 0.75rem;
+  }
+
+  .palette-grid {
+    grid-template-columns: repeat(8, 1fr);
   }
 
   .test-header {

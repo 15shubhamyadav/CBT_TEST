@@ -17,11 +17,23 @@ export default function TestView({
   totalSeconds,
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [markedForReview, setMarkedForReview] = useState({});
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(true);
 
   const currentQuestion = questions[currentIndex];
 
   const handleOptionSelect = (questionId, optionId) => {
     onAnswerChange(questionId, optionId);
+  };
+
+  const toggleMarkForReview = () => {
+    if (!currentQuestion) return;
+    const qId = currentQuestion.id;
+    setMarkedForReview((prev) => ({
+      ...prev,
+      [qId]: !prev[qId],
+    }));
   };
 
   const gotoPrev = () => {
@@ -69,52 +81,148 @@ export default function TestView({
         </div>
       </header>
 
-      <div className="question-body">
-        {typeLabel && <div className="question-tag">{typeLabel}</div>}
-        <div className="question-text">{currentQuestion.text}</div>
-
-        {currentQuestion.options && currentQuestion.options.length > 0 && (
-          <div className="options-list">
-            {currentQuestion.options.map((opt) => (
-              <label
-                key={opt.id}
-                className={`option ${
-                  selectedOptionId === opt.id ? "option-selected" : ""
-                }`}
-              >
-                <input
-                  type="radio"
-                  name={`q-${currentQuestion.id}`}
-                  value={opt.id}
-                  checked={selectedOptionId === opt.id}
-                  onChange={() => handleOptionSelect(currentQuestion.id, opt.id)}
-                />
-                <span className="option-label">{opt.label}.</span>
-                <span>{opt.text}</span>
-              </label>
-            ))}
+      <div className="test-layout">
+        <aside
+          className={`question-palette ${paletteOpen ? "open" : "collapsed"}`}
+        >
+          <div className="palette-header">
+            <span>Questions</span>
+            <button
+              type="button"
+              className="palette-toggle"
+              onClick={() => setPaletteOpen((v) => !v)}
+            >
+              {paletteOpen ? "⟨" : "⟩"}
+            </button>
           </div>
-        )}
+          {paletteOpen && (
+            <div className="palette-grid">
+              {questions.map((q, index) => {
+                const isCurrent = index === currentIndex;
+                const isMarked = markedForReview[q.id];
+                const isAnswered = Boolean(answers[q.id]);
 
-        {/* Placeholder for future: show images, match-the-following, etc. */}
+                let statusClass = "palette-item";
+                if (isMarked) statusClass += " palette-marked";
+                else if (isAnswered) statusClass += " palette-answered";
+                else statusClass += " palette-unanswered";
+                if (isCurrent) statusClass += " palette-current";
+
+                return (
+                  <button
+                    key={q.id || index}
+                    type="button"
+                    className={statusClass}
+                    onClick={() => setCurrentIndex(index)}
+                  >
+                    {index + 1}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          <div className="palette-legend">
+            <span className="legend-dot answered" /> Answered
+            <span className="legend-dot marked" /> Marked
+            <span className="legend-dot unanswered" /> Unanswered
+          </div>
+        </aside>
+
+        <div className="test-main">
+          <div className="question-body">
+            {typeLabel && <div className="question-tag">{typeLabel}</div>}
+            <div className="question-text">{currentQuestion.text}</div>
+
+            {currentQuestion.options && currentQuestion.options.length > 0 && (
+              <div className="options-list">
+                {currentQuestion.options.map((opt) => (
+                  <label
+                    key={opt.id}
+                    className={`option ${
+                      selectedOptionId === opt.id ? "option-selected" : ""
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name={`q-${currentQuestion.id}`}
+                      value={opt.id}
+                      checked={selectedOptionId === opt.id}
+                      onChange={() =>
+                        handleOptionSelect(currentQuestion.id, opt.id)
+                      }
+                    />
+                    <span className="option-label">{opt.label}.</span>
+                    <span>{opt.text}</span>
+                  </label>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <footer className="test-footer">
+            <div className="nav-buttons">
+              <button onClick={gotoPrev} disabled={currentIndex === 0}>
+                Previous
+              </button>
+              <button
+                onClick={gotoNext}
+                disabled={currentIndex === questions.length - 1}
+              >
+                Next
+              </button>
+            </div>
+            <div className="test-actions">
+              <button
+                type="button"
+                className={`secondary-btn ${
+                  markedForReview[currentQuestion.id] ? "active" : ""
+                }`}
+                onClick={toggleMarkForReview}
+              >
+                Mark for Review
+              </button>
+              <button
+                className="primary-btn"
+                type="button"
+                onClick={() => setShowConfirm(true)}
+              >
+                Submit Test
+              </button>
+            </div>
+          </footer>
+        </div>
       </div>
 
-      <footer className="test-footer">
-        <div className="nav-buttons">
-          <button onClick={gotoPrev} disabled={currentIndex === 0}>
-            Previous
-          </button>
-          <button
-            onClick={gotoNext}
-            disabled={currentIndex === questions.length - 1}
-          >
-            Next
-          </button>
+      {showConfirm && (
+        <div className="modal-backdrop">
+          <div className="modal-card">
+            <h3>Submit Test?</h3>
+            <p>
+              Are you sure you want to submit your test now? You still have{" "}
+              <strong>{formatTime(remainingSeconds)}</strong> remaining.
+            </p>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="secondary-btn"
+                onClick={() => setShowConfirm(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="primary-btn"
+                onClick={() => {
+                  setShowConfirm(false);
+                  onSubmit();
+                }}
+              >
+                Yes, Submit
+              </button>
+            </div>
+          </div>
         </div>
-        <button className="primary-btn" onClick={onSubmit}>
-          Submit Test
-        </button>
-      </footer>
+      )}
     </section>
   );
 }

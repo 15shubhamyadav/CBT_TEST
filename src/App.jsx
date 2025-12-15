@@ -78,7 +78,9 @@ export default function App() {
             <br />
             <span className="app-note">
               Note: Answers are not provided; please match them manually from
-              the answer key.
+              the answer key. One more thing – image-based questions cannot be
+              extracted, so any figures or diagrams will not appear in the CBT
+              view for those questions.
             </span>
           </p>
         </div>
