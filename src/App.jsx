@@ -68,23 +68,25 @@ export default function App() {
 
   return (
     <div className="app-root">
-      <header className="app-header">
-        <div>
-          <h1>PDF to CBT Test</h1>
-          <p className="app-subtitle">
-            Hey There! This is just a very lightweight website made by{" "}
-            <strong>Shubham Yadav</strong>. It aims to convert test PDFs into a
-            CBT-style test for better interaction, efficiency and practice.
-            <br />
-            <span className="app-note">
-              Note: Answers are not provided; please match them manually from
-              the answer key. One more thing – image-based questions cannot be
-              extracted, so any figures or diagrams will not appear in the CBT
-              view for those questions.
-            </span>
-          </p>
-        </div>
-      </header>
+      {view !== VIEWS.TEST && (
+        <header className="app-header">
+          <div>
+            <h1>PDF to CBT Test</h1>
+            <p className="app-subtitle">
+              Hey There! This is just a very lightweight website made by{" "}
+              <strong>Shubham Yadav</strong>. It aims to convert test PDFs into
+              a CBT-style test for better interaction, efficiency and practice.
+              <br />
+              <span className="app-note">
+                Note: Answers are not provided; please match them manually from
+                the answer key. One more thing – image-based questions cannot be
+                extracted, so any figures or diagrams will not appear in the CBT
+                view for those questions.
+              </span>
+            </p>
+          </div>
+        </header>
+      )}
       <main className="app-main">
         {view === VIEWS.UPLOAD && (
           <UploadView onUploadSuccess={handleUploadSuccess} />
