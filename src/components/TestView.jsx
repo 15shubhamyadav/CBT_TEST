@@ -135,6 +135,16 @@ export default function TestView({
               <div className="test-actions">
                 <button
                   type="button"
+                  className="secondary-btn"
+                  onClick={() => {
+                    if (!currentQuestion) return;
+                    onAnswerChange(currentQuestion.id, undefined);
+                  }}
+                >
+                  Clear Response
+                </button>
+                <button
+                  type="button"
                   className={`secondary-btn ${
                     markedForReview[currentQuestion.id] ? "active" : ""
                   }`}
